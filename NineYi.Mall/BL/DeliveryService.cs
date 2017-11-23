@@ -55,7 +55,23 @@ namespace NineYi.Mall.BL
             }
             else if (deliveryItem.DeliveryType == DeliveryTypeEnum.PostOffice)
             {
-                throw new NotImplementedException();
+                /*
+                 * 依據重量計算公式：重量 * 10 + 80，
+                 * 依據材積計算公式：長 * 寬 * 高 * 0.00001 * 110，
+                 * 取價格高的為運費
+                 */
+
+                var weight = deliveryItem.ProductWeight;
+                var length = deliveryItem.ProductLength;
+                var width = deliveryItem.ProductWidth;
+                var height = deliveryItem.ProductHeight;
+
+                var weightFee = weight * 10 + 80;
+                var sizeFee = length * width * height * 0.00001 * 110;
+
+                fee = Math.Max(weightFee, sizeFee);
+
+                return fee;
             }
             else
             {
